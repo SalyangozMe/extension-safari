@@ -44,6 +44,11 @@
 			<array>
 				<string>assets/js/inject.js</string>
 			</array>
+			<key>Start</key>
+			<array>
+				<string>assets/js/fetch.js</string>
+				<string>assets/js/defines.js</string>
+			</array>
 		</dict>
 		<key>Stylesheets</key>
 		<array>
