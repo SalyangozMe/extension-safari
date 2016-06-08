@@ -5,3 +5,4 @@ if (!safari.extension.settings.hasRun) {
 }
 
 safari.application.addEventListener("command", performCommand, false);
+safari.application.addEventListener("message", respondToMessage, false);
