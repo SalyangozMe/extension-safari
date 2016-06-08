@@ -16,29 +16,80 @@ function appendSalyangoz(){
 }
 
 function hookMessages(){
-	safari.self.addEventListener("message", handleMessage, false);
+	if (window.top === window){
+		safari.self.addEventListener("message", handleMessage, false);
+	}
 }
 
 function handleMessage(msgEvent){
 	var messageName = msgEvent.name;
 	var messageData = msgEvent.message;
-	if (messageName === "messageToBeDeliveredToInjectedScript") {
+
+	if (messageName === "toggleContainer") {
         if (messageData === "showContainer") {
             showContainer();
         }else if (messageData === "hideContainer") {
             hideContainer();
         }
     }
+    if(messageName == "createPost"){
+    	createPost(messageData.id, messageData.token, messageData.title, messageData.url, function(response){
+    		if (response.success) {
+    			showContainer();
+    			hideContainer();
+    		}
+    	});
+    }
+    if(messageName == "fetchToken"){
+    	fetchTokenFromServiceWithCompletion(function(response){
+    		safari.self.tab.dispatchMessage("foundToken", response);
+    	});
+    }
 }
 
 function showContainer(){
 	document.getElementById("SalyangozExtension").classList.remove("hidden");
 }
+
 function hideContainer() {
     setTimeout(function () {
-      document.getElementById("SalyangozExtension").classList.add("hidden");
-    }, 700)
+    	document.getElementById("SalyangozExtension").classList.add("hidden");
+    }, 2000)
 }
+
+function fetchTokenFromServiceWithCompletion(callback){
+    fetch(salyangozServiceTokenFetchURL, {
+        credentials: 'include'
+    }).then(function (response) {
+        return response.json();
+    }).then(function (response) {
+        callback(response);
+    });
+}
+
+function createPost(id, token, title, url, callback){
+	if (id && token && title && url) {
+		var formData = new FormData();
+		formData.append('id', id);
+		formData.append('token', token);
+		formData.append('title', title);
+		formData.append('url', url);
+
+		fetch(salyangozServiceAddPostURL, {
+	    	method: "POST",
+	    	body: formData,
+	    	credentials: 'include'
+	  	}).then(function (response) {
+	    	return response.json()
+	    }).then(function (response) {
+	    	console.log(response);
+	    	if (callback) {
+	    		callback(response);
+	    	}
+	    });
+	}
+}
+
 (function () {
 
 	if (document.getElementById("SalyangozExtension")) {

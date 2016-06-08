@@ -5,11 +5,32 @@ function openURLInNewTab(url){
 	newTab.url = url;
 }
 
+function respondToMessage(messageEvent) {
+    if(messageEvent.name === "foundToken") {
+        var response = messageEvent.message;
+        if (response.status) {
+            createPostWithTokenResponse(response);
+        }else{
+            openURLInNewTab(salyangozLoginURL);
+        }
+    }
+}
+
+function createPostWithTokenResponse(response){
+    if (response) {
+        var currentURL = safari.application.activeBrowserWindow.activeTab.url;
+        var pageTitle = safari.application.activeBrowserWindow.activeTab.title;
+        var postData = {"id":response.id, "token":response.token, "title":pageTitle, "url":currentURL};
+        safari.application.activeBrowserWindow.activeTab.page.dispatchMessage("createPost", postData);
+    }
+}
+
 function performCommand(event) {
     // Make sure event comes from the button
     if (event.command == sharePageToSalyangozCommand) {
-    	currentURL = safari.application.activeBrowserWindow.activeTab.url;
-    	validationResult = validateURL(currentURL);
+        var currentURL = safari.application.activeBrowserWindow.activeTab.url;
+    	var validationResult = validateURL(currentURL);
+        var pageTitle = safari.application.activeBrowserWindow.activeTab.title;
     	switch(validationResult){
     		case -1:
     			alert(urlValidationErrorMessageBlankPage);
@@ -24,22 +45,7 @@ function performCommand(event) {
     			alert(urlValidationErrorMessageLocalhost);
     			break;	
     		case 1:
-    			fetchTokenFromServiceWithCompletion(function(response){
-                    if (response) {
-                        if (response.status) {
-                            if (response.token && response.id) {
-                                var pageTitle = safari.application.activeBrowserWindow.activeTab.title;
-                                createPostWithCompletion(pageTitle, currentURL, response.token, response.id, function(){
-                                    if (response.success) {
-                                        safari.application.activeBrowserWindow.activeTab.page.dispatchMessage(dataPassMessageName, "showSalyangoz");
-                                    }
-                                });
-                            }
-                        }else{
-                            openURLInNewTab(salyangozLoginURL);
-                        }
-                    }
-    			});
+                safari.application.activeBrowserWindow.activeTab.page.dispatchMessage("fetchToken", null);
     			break;
     		default:
     			break;
