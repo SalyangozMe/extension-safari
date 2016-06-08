@@ -17,11 +17,5 @@ var urlValidationErrorMessageSuspiciousFile = "This URL is not a good thing to s
 var urlValidationErrorMessageSalyangozception = "Sharing Salyangoz in Salyangoz would be Salyangozception.\n\nThis is not cool.";
 var urlValidationErrorMessageLocalhost = "Sharing your localhost? Not a good idea.";
 
-//Template paths
-var salyangozBarTemplatePath = safari.extension.baseURI + "assets/templates/bar.html"
-
-//Other defines
-var dataPassMessageName = "messageToBeDeliveredToInjectedScript";
-
 //Commands
 var sharePageToSalyangozCommand = "sharePageToSalyangoz";
