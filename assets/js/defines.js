@@ -1,5 +1,5 @@
 //Base urls
-var salyangozBaseURL = "http://salyangoz.me";
+var salyangozBaseURL = "https://salyangoz.me";
 var salyangozServiceBaseURL = salyangozBaseURL + "/api/v1";
 
 //Website endpoints
