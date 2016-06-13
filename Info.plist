@@ -9,7 +9,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>Salyangoz</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.towerlabs.salyangoz</string>
+	<string>me.salyangoz.safariext</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleShortVersionString</key>
@@ -58,7 +58,7 @@
 	<key>Description</key>
 	<string>Salyangoz: Share your voyage on the net.</string>
 	<key>DeveloperIdentifier</key>
-	<string>9JJNZLTAH9</string>
+	<string>Z2EVZ5Y6JY</string>
 	<key>ExtensionInfoDictionaryVersion</key>
 	<string>1.0</string>
 	<key>Permissions</key>
